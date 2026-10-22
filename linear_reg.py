@@ -40,3 +40,7 @@ def main():
     y_pred = model.predict(X_simple)
     rmse_simple = np.sqrt(mean_squared_error(Y_simple, y_pred))
     print(f"RMSE (Simple Dataset): {rmse_simple:.4f}\n")
+
+     print("--- Part 2: Multivariate Linear Regression (GasProperties.csv) ---")
+    # (6) Multivariate Regression using Least Squares Method
+    try:
