@@ -44,3 +44,37 @@ def main():
      print("--- Part 2: Multivariate Linear Regression (GasProperties.csv) ---")
     # (6) Multivariate Regression using Least Squares Method
     try:
+# Load the dataset
+        df = pd.read_csv("GasProperties.csv")
+        
+        # Split features (X) and target (Y - assume last column 'Idx')
+        X_multi = df.iloc[:, :-1].values
+        Y_multi = df.iloc[:, -1].values
+        
+        # Add a column of ones to X to account for the intercept term (w0)
+        X_multi = np.c_[np.ones((X_multi.shape[0], 1)), X_multi]
+
+        # Split into 80% training and 20% testing
+        X_train, X_test, y_train, y_test = train_test_split(X_multi, Y_multi, test_size=0.2, random_state=42)
+
+        # Calculate least squares weights: W = (X^T * X)^-1 * X^T * y
+        W = np.linalg.inv(X_train.T.dot(X_train)).dot(X_train.T).dot(y_train)
+        
+        # Predict on training and testing sets
+        y_train_pred = X_train.dot(W)
+        y_test_pred = X_test.dot(W)
+        
+        # Compute RMSE
+        rmse_train = np.sqrt(mean_squared_error(y_train, y_train_pred))
+        rmse_test = np.sqrt(mean_squared_error(y_test, y_test_pred))
+        
+        print("Multivariate Least Squares Results:")
+        print(f"Weight vector W: {W}")
+        print(f"Training RMSE: {rmse_train:.4f}")
+        print(f"Testing RMSE: {rmse_test:.4f}")
+        
+    except FileNotFoundError:
+        print("Error: GasProperties.csv not found. Ensure the file is in the same directory.")
+
+if __name__ == '__main__':
+    main()
