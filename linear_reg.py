@@ -17,3 +17,26 @@ def main():
     plt.title('Dataset Scatter Plot')
     plt.xlabel('X')
     plt.ylabel('Y')
+
+ # (3) Find the function using LinearRegression
+    model = LinearRegression()
+    model.fit(X_simple, Y_simple)
+    
+    # Plot the predicted line
+    plt.plot(X_simple, model.predict(X_simple), color='red', label='Linear Fit')
+    plt.legend()
+    
+    # Save the plot for the assignment report
+    plt.savefig('scatter_plot.png')
+    print("Saved scatter plot to 'scatter_plot.png'")
+
+    # (4) Display coefficient vector and polynomial equation
+    w1 = model.coef_[0]
+    w0 = model.intercept_
+    print(f"Coefficient vector: [w0, w1] = [{w0:.4f}, {w1:.4f}]")
+    print(f"Equation: y = {w0:.4f} + {w1:.4f}*x1")
+
+    # (5) Compute the training error (RMSE)
+    y_pred = model.predict(X_simple)
+    rmse_simple = np.sqrt(mean_squared_error(Y_simple, y_pred))
+    print(f"RMSE (Simple Dataset): {rmse_simple:.4f}\n")
